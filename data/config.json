@@ -1,0 +1,38 @@
+{
+  "slakh_root": "/kaggle/input/datasets/alonhaviv/slakh2100/slakh2100_flac_redux",
+  "out_dir": "/kaggle/working/test",
+  "split_dirs": {
+    "train": "train",
+    "val": "validation",
+    "test": "test"
+  },
+  "input_class": "Bass",
+  "target_class": "Piano",
+  "n_bars": 8,
+  "stride": 8,
+  "min_notes": 8,
+  "max_win_tokens": 768,
+  "beats_per_bar": 4,
+  "limit": null,
+  "pitch_range": [
+    21,
+    109
+  ],
+  "beat_res": {
+    "0-4": 4,
+    "4-8": 2
+  },
+  "use_velocities": false,
+  "use_programs": false,
+  "use_tempos": false,
+  "use_time_signatures": false,
+  "special_tokens": [
+    "PAD",
+    "BOS",
+    "EOS",
+    "SEP",
+    "OUT_Piano"
+  ],
+  "max_transpose": 2,
+  "seed": 7
+}

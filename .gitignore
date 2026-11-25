@@ -1,0 +1,7 @@
+# checkpoints (~43 MB cada): ficam na pasta, fora do git
+runs/*/best.pt
+*.zip
+
+__pycache__/
+.ipynb_checkpoints/
+*.wav

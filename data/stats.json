@@ -1,0 +1,65 @@
+{
+  "train": {
+    "faixas": 626,
+    "exemplos": 7578,
+    "tokens_totais": 2168431,
+    "comprimento": {
+      "media": 286.148192135128,
+      "p50": 262.0,
+      "p95": 536.0,
+      "p99": 659.0,
+      "max": 768
+    },
+    "notas_por_janela_baixo": {
+      "media": 36.331485880179464,
+      "p5": 12.0
+    },
+    "notas_por_janela_piano": {
+      "media": 62.982053312219584,
+      "p5": 12.0
+    },
+    "fracao_compassos_vazios_piano": 0.10566772235418316
+  },
+  "val": {
+    "faixas": 117,
+    "exemplos": 1525,
+    "tokens_totais": 457161,
+    "comprimento": {
+      "media": 299.7777049180328,
+      "p50": 280.0,
+      "p95": 572.5999999999999,
+      "p99": 656.76,
+      "max": 722
+    },
+    "notas_por_janela_baixo": {
+      "media": 36.83606557377049,
+      "p5": 14.0
+    },
+    "notas_por_janela_piano": {
+      "media": 68.06688524590164,
+      "p5": 13.0
+    },
+    "fracao_compassos_vazios_piano": 0.10057377049180329
+  },
+  "test": {
+    "faixas": 49,
+    "exemplos": 620,
+    "tokens_totais": 186892,
+    "comprimento": {
+      "media": 301.43870967741935,
+      "p50": 281.5,
+      "p95": 548.0,
+      "p99": 609.81,
+      "max": 747
+    },
+    "notas_por_janela_baixo": {
+      "media": 36.035483870967745,
+      "p5": 15.0
+    },
+    "notas_por_janela_piano": {
+      "media": 69.1,
+      "p5": 13.0
+    },
+    "fracao_compassos_vazios_piano": 0.08951612903225807
+  }
+}

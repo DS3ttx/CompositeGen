@@ -1,0 +1,64 @@
+{
+  "train": {
+    "descartes": {
+      "sem_par": 85,
+      "poucas_notas": 4881,
+      "janelas_ok": 9576,
+      "nao_4_4": 387,
+      "maior_que_max_token": 104
+    },
+    "dedup": {
+      "antes": 9472,
+      "depois": 7578,
+      "removidos": 1894
+    },
+    "grupos_duplicados": {
+      "mesma música, janelas diferentes (repetição)": 384,
+      "músicas diferentes": 759,
+      "mesma música e janela, stems diferentes": 31
+    }
+  },
+  "val": {
+    "descartes": {
+      "sem_par": 21,
+      "nao_4_4": 92,
+      "janelas_ok": 2087,
+      "poucas_notas": 991,
+      "maior_que_max_token": 20
+    },
+    "dedup": {
+      "antes": 2067,
+      "depois": 1893,
+      "removidos": 174
+    },
+    "contaminacao": {
+      "faixas": 151,
+      "contaminadas_full": 34,
+      "contaminadas_piano": 34,
+      "contaminadas_baixo": 36,
+      "exemplos_antes": 1893,
+      "exemplos_depois": 1525
+    }
+  },
+  "test": {
+    "descartes": {
+      "sem_par": 8,
+      "janelas_ok": 1244,
+      "poucas_notas": 485,
+      "nao_4_4": 51,
+      "maior_que_max_token": 12
+    },
+    "dedup": {
+      "antes": 1232,
+      "depois": 1076,
+      "removidos": 156
+    },
+    "contaminacao": {
+      "faixas": 78,
+      "contaminadas": 29,
+      "exemplos_antes": 1076,
+      "exemplos_depois": 620,
+      "prompts": 49
+    }
+  }
+}
