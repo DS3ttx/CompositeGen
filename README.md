@@ -17,7 +17,6 @@ Modelo principal: Transformer decoder-only (~10,7M parâmetros). Comparação: L
 | `runs/{transformer,lstm,rnn}/` | `history.json`, `test_metrics.json`, `midi/` (checkpoints `best.pt` fora do git) |
 | `graficos.py` | Curvas de aprendizado, métricas de teste, piano rolls → `graficos/` |
 | `fig_arquitetura.py` | Figura da arquitetura → `graficos/relatorio/00_arquitetura_transformer.{pdf,png}` |
-| `gerar_audio.sh` | MIDI → MP3 dos 7 exemplos do relatório (FluidSynth + ffmpeg) |
 | `graficos/relatorio/` | Figuras e áudios usados no relatório |
 
 ## Formato da sequência
@@ -44,5 +43,11 @@ pip install -r requirements.txt
 python train_kaggle.py --model transformer --data-dir data   # treino (GPU)
 python graficos.py --runs runs --out graficos
 python fig_arquitetura.py
-bash gerar_audio.sh
 ```
+
+## Contribuição
+
+- **Denner Lopes**: Pré-Processamento e Tokenização
+- **Victor Gabriel**: Relatório
+- **Marcus Moraes**: Treinamento e Resultados
+- **Túlio Costa**: Apresentação
