@@ -1,0 +1,5 @@
+torch
+numpy
+miditok==3.1.0
+symusic
+matplotlib
