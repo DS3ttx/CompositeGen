@@ -1,5 +1,5 @@
 # %% [markdown]
-# # Treino: baixo -> piano (Transformer decoder-only vs. LSTM)
+# # Treino: baixo -> piano (Transformer decoder-only vs. LSTM vs. RNN)
 #
 # Lê os artefatos do pré-processamento (train.pt, val.pt, test.pt, tokenizer.json,
 # test_prompts.json) e treina o modelo escolhido em CONFIG.model.
@@ -8,7 +8,7 @@
 #   1. Suba o data.zip como Dataset (Add Input) e ative a GPU (T4 ou P100).
 #   2. Primeira célula:  !pip install -q miditok==3.1.0
 #   3. Cole este arquivo em células (os marcadores "# %%" separam) ou rode com
-#      !python train_kaggle.py --model transformer
+#      !python train_kaggle.py --model transformer   (ou lstm, rnn)
 
 # %% imports
 import argparse
@@ -35,7 +35,7 @@ from symusic import Tempo
 # %% configuração
 @dataclass
 class TrainConfig:
-    model: str = "transformer"          # "transformer" ou "lstm"
+    model: str = "transformer"          # "transformer", "lstm" ou "rnn"
     data_dir: str = ""                  # vazio = procura train.pt em /kaggle/input
     out_dir: str = "/kaggle/working/runs"
 
@@ -51,9 +51,14 @@ class TrainConfig:
     lstm_layers: int = 3
     lstm_dropout: float = 0.3
 
+    # rnn vanilla (tanh) (~10.1M params, comparável)
+    rnn_hidden: int = 1280
+    rnn_layers: int = 3
+    rnn_dropout: float = 0.3
+
     # otimização
     batch_size: int = 32
-    lr: float = 0.0                     # 0 = padrão do modelo (3e-4 transformer, 1e-3 lstm)
+    lr: float = 0.0                     # 0 = padrão do modelo (3e-4 transformer, 1e-3 lstm, 5e-4 rnn)
     weight_decay: float = 0.1
     warmup_steps: int = 500
     epochs: int = 40
@@ -76,7 +81,7 @@ class TrainConfig:
     debug_steps: int = 0
 
 
-DEFAULT_LR = {"transformer": 3e-4, "lstm": 1e-3}
+DEFAULT_LR = {"transformer": 3e-4, "lstm": 1e-3, "rnn": 5e-4}
 
 
 def find_data_dir(cfg):
@@ -258,11 +263,37 @@ class DecoderLSTM(nn.Module):
         return self.head(self.drop(h))
 
 
+class DecoderRNN(nn.Module):
+    """RNN "normal" (Elman, tanh). Mesma estrutura do DecoderLSTM, sem portões."""
+
+    def __init__(self, vocab_size, cfg):
+        super().__init__()
+        H = cfg.rnn_hidden
+        self.emb = nn.Embedding(vocab_size, H)
+        self.drop = nn.Dropout(cfg.rnn_dropout)
+        self.rnn = nn.RNN(H, H, num_layers=cfg.rnn_layers, nonlinearity="tanh",
+                          batch_first=True, dropout=cfg.rnn_dropout)
+        self.head = nn.Linear(H, vocab_size, bias=False)
+        self.head.weight = self.emb.weight
+        nn.init.normal_(self.emb.weight, std=0.02)
+        for name, p in self.rnn.named_parameters():
+            if "weight_hh" in name:
+                nn.init.orthogonal_(p)          # ajuda a RNN a não explodir/sumir o gradiente
+            elif "bias" in name:
+                nn.init.zeros_(p)
+
+    def forward(self, x):
+        h, _ = self.rnn(self.drop(self.emb(x)))
+        return self.head(self.drop(h))
+
+
 def build_model(cfg, vocab_size):
     if cfg.model == "transformer":
         return DecoderTransformer(vocab_size, cfg)
     if cfg.model == "lstm":
         return DecoderLSTM(vocab_size, cfg)
+    if cfg.model == "rnn":
+        return DecoderRNN(vocab_size, cfg)
     raise ValueError(cfg.model)
 
 

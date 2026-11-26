@@ -12,6 +12,7 @@ DATA_DIR = Path("/kaggle/input/SEU-DATASET/data")              # pasta com test.
 CKPTS = {
     "transformer": "/kaggle/working/runs/transformer/best.pt",
     "lstm": "/kaggle/working/runs/lstm/best.pt",
+    "rnn": "/kaggle/working/runs/rnn/best.pt",
 }
 N_PROMPTS = None          # None = todos os 49; ponha 3 para um teste rápido
 OUT_JSON = "/kaggle/working/metricas_extras.json"
